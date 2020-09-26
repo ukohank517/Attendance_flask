@@ -34,9 +34,9 @@
   | |ticket_num|INT|チケット数||
   | |event_date|DATETIME(6)|イベント開催日時||
   | |public_date|DATETIME(6)|登録開催日時||
+  | |version|INT|管理バージョン|1, インクリメント|
   | |created_at|DATETIME(6)|データ作成日時|current_timestamp()|
   | |updated_at|DATETIME(6)|データ更新日時|current_timestamp()|
-  | |version|INT|管理バージョン|1, インクリメント|
   | |deleted|BOOLEAN|論理削除フラグ|false|  
 
 - ticket (チケットテーブル)
@@ -51,9 +51,9 @@
   | |famali_id|VARCHAR(50)|家族識別子(乱数)||
   | |comment|VARCHAR(250)|コメント||
   | |memo|VARCHAR(250)|メモ||
+  | |version|INT|管理バージョン|1, インクリメント|
   | |created_at|DATETIME(6)|データ作成日時|current_timestamp()|
   | |updated_at|DATETIME(6)|データ更新日時|current_timestamp()|
-  | |version|INT|管理バージョン|1, インクリメント|
   | |deleted|BOOLEAN|論理削除フラグ|false|  
 
 
