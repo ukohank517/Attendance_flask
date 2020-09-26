@@ -1,8 +1,8 @@
 version: '3'
 services:
-  api:
+  web:
     build: python
-    container_name: api_server
+    container_name: web_server
     ports:
       - "5000:5000"
     tty: yes
@@ -21,7 +21,7 @@ services:
       - '3306:3306'
     environment:
       MYSQL_ROOT_PASSWORD: pass
-      MYSQL_DATABASE: testdb
+      MYSQL_DATABASE: attendance
       TZ: Asia/Tokyo
     volumes:
       - ./db-data:/var/lib/mysql

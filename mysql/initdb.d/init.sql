@@ -1,3 +1,33 @@
+CREATE TABLE IF NOT EXISTS `organization` (
+    organization_id VARCHAR(50) UNIQUE NOT NULL,
+    pswd            VARCHAR(50)        NOT NULL,
+    ticket_num      INT                NOT NULL,
+    event_date      DATETIME(6)        NOT NULL,
+    public_date     DATETIME(6)        NOT NULL,
+    version         INT                NOT NULL,
+    created_at      DATETIME(6)        NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    updated_at      DATETIME(6)        NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+    deleted         BOOLEAN            NOT NULL DEFAULT FALSE,
+    PRIMARY KEY (organization_id)
+);
+
+CREATE TABLE IF NOT EXISTS `ticket` (
+    ticket_id       INT          NOT NULL,
+    organization_id VARCHAR(50)  NOT NULL,
+    last_name       VARCHAR(50)  NOT NULL,
+    first_name      VARCHAR(50)  NOT NULL,
+    email           VARCHAR(100) NOT NULL,
+    famali_id       VARCHAR(50)  NOT NULL,
+    comment         VARCHAR(250) NOT NULL,
+    memo            VARCHAR(250) NOT NULL,
+    version         INT          NOT NULL,
+    created_at      DATETIME(6)  NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    updated_at      DATETIME(6)  NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+    deleted         BOOLEAN      NOT NULL DEFAULT FALSE,
+    PRIMARY KEY (ticket_id, organization_id),
+    FOREIGN KEY (organization_id) REFERENCES organization(organization_id)
+);
+
 CREATE TABLE `personal_info` (
     mail_address VARCHAR(100) NOT NULL,
     sex VARCHAR(6) NOT NULL,
