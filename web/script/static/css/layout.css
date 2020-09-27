@@ -1,11 +1,11 @@
 /* footer用 */
 footer{
+    font-size: 20px;
     /*footerの装飾*/
     width: 100%;
     /* background-color: #89c7de; */
     color: #43A047;
     text-align: center;
-    margin-left: 3.5em;
 
     position: absolute;/*←絶対位置*/
     bottom: 0; /*下に固定*/
