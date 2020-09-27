@@ -4,6 +4,9 @@
 ### applog ###
 db-data
 
+### IDE setting ###
+.vscode
+
 ### Flask ###
 instance/*
 !instance/.gitignore

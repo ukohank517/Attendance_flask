@@ -1,0 +1,23 @@
+header{
+  margin-top: 30px;
+  color: #43A047;
+}
+hr{
+  border-width: 3px;
+  border-color: #43A047;
+}
+h1{
+  font-size: 25px;
+    font-weight: bold;
+    margin: 0;
+  text-align: center;
+}
+.align-light{
+    text-align: right;
+}
+.form-group{
+  margin-bottom: 35px;
+}
+
+
+/*  */
