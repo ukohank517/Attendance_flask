@@ -9,12 +9,13 @@ app.config.from_pyfile(flask_conf_file)
 mail_file = os.path.join(os.getcwd(), 'data', 'personal_info.csv')
 
 
-@app.route('/entry', methods=['GET'])
+@app.route('/event/entry', methods=['GET'])
 def test():
+    target_organization = request.args.get('organization_id')
     rest_seats = 10
     return render_template('entry.html', rest_seats=rest_seats)
 
-@app.route('/', methods=['GET'])
+@app.route('/sample', methods=['GET'])
 def hello():
     target_prefecture = request.args.get('pref')
 
