@@ -11,15 +11,19 @@ hr{
 }
 h1{
   font-size: 25px;
-    font-weight: bold;
-    margin: 0;
+  font-weight: bold;
   text-align: center;
 }
 .align-light{
     text-align: right;
 }
+/* 項目ラベル */
 .form-group{
   margin-bottom: 35px;
+}
+/* 項目placeholder size */
+.form-control{
+  font-size: 20px;
 }
 input:required{
   background: #ffcdd2;
