@@ -9,11 +9,12 @@ app.config.from_pyfile(flask_conf_file)
 mail_file = os.path.join(os.getcwd(), 'data', 'personal_info.csv')
 
 
+
 @app.route('/', methods=['GET'])
 def hello():
     target_prefecture = request.args.get('pref')
 
-    conn = MySQLdb.connect(user='root', passwd='pass', host='db_server', db='testdb')
+    conn = MySQLdb.connect(user='root', passwd='pass', host='db_server', db='attendance')
     cur = conn.cursor()
     sql = "select * from personal_info;"
     cur.execute(sql)
