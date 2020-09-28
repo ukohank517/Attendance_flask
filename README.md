@@ -35,6 +35,7 @@
   |--|--|--|--|--|
   |✔︎|event_id|VARCHAR(100)|組織ID||
   | |event_name|VARCHAR(100)|イベント名||
+  | |organization_id|VARCHAR(100)|組織名|'unknown'|
   | |pswd|VARCHAR(100)|パスワード(情報閲覧時に使用)||
   | |ticket_num|INT|チケット数||
   | |event_date|DATETIME(6)|イベント開催日時||

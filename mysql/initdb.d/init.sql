@@ -1,6 +1,7 @@
 CREATE TABLE `event` (
     event_id        VARCHAR(100) UNIQUE NOT NULL,
     event_name      VARCHAR(100)        NOT NULL,
+    organization_id VARCHAR(100)        NOT NULL DEFAULT 'unknown',    
     pswd            VARCHAR(100)        NOT NULL,
     ticket_num      INT                 NOT NULL,
     event_date      DATETIME(6)         NOT NULL,
