@@ -12,8 +12,9 @@ mail_file = os.path.join(os.getcwd(), 'data', 'personal_info.csv')
 @app.route('/event/entry', methods=['GET'])
 def test():
     target_organization = request.args.get('organization_id')
+    event_name = '常年期第x回弥撒'
     rest_seats = 10
-    return render_template('entry.html', rest_seats=rest_seats)
+    return render_template('entry.html', rest_seats=rest_seats, event_name = event_name)
 
 @app.route('/sample', methods=['GET'])
 def hello():

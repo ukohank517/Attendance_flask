@@ -1,17 +1,18 @@
-CREATE TABLE IF NOT EXISTS `organization` (
-    organization_id VARCHAR(50) UNIQUE NOT NULL,
-    pswd            VARCHAR(50)        NOT NULL,
-    ticket_num      INT                NOT NULL,
-    event_date      DATETIME(6)        NOT NULL,
-    public_date     DATETIME(6)        NOT NULL,
-    version         INT                NOT NULL,
-    created_at      DATETIME(6)        NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-    updated_at      DATETIME(6)        NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
-    deleted         BOOLEAN            NOT NULL DEFAULT FALSE,
+CREATE TABLE `event` (
+    event_id        VARCHAR(100) UNIQUE NOT NULL,
+    event_name      VARCHAR(100)        NOT NULL,
+    pswd            VARCHAR(100)        NOT NULL,
+    ticket_num      INT                 NOT NULL,
+    event_date      DATETIME(6)         NOT NULL,
+    public_date     DATETIME(6)         NOT NULL,
+    version         INT                 NOT NULL,
+    created_at      DATETIME(6)         NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    updated_at      DATETIME(6)         NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+    deleted         BOOLEAN             NOT NULL DEFAULT FALSE,
     PRIMARY KEY (organization_id)
 );
 
-CREATE TABLE IF NOT EXISTS `ticket` (
+CREATE TABLE `ticket` (
     ticket_id       INT          NOT NULL,
     organization_id VARCHAR(50)  NOT NULL,
     last_name       VARCHAR(50)  NOT NULL,
