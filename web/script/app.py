@@ -9,12 +9,29 @@ app.config.from_pyfile(flask_conf_file)
 mail_file = os.path.join(os.getcwd(), 'data', 'personal_info.csv')
 
 
+@app.route('/event/info', methods=['GET'])
+def info():
+    event_id = request.args.get('event_id')
+    event_pswd = request.args.get('pswd')
+
+    return 'event_idとpswdで、予約人間リストを表示する、セットがなければ404に飛ばす'
+
 @app.route('/event/entry', methods=['GET'])
 def test():
     target_organization = request.args.get('organization_id')
     event_name = '常年期第x回弥撒'
     rest_seats = 10
     return render_template('entry.html', rest_seats=rest_seats, event_name = event_name)
+
+@app.route('/event/result', methods=['GET'])
+def result():
+    event_id = request.args.get('event_id')
+    famali_id = request.args.get('famali_id')
+    return '詳細ページ表示、QRコードがここで表示する'
+
+@app.route('/event/result/edit', methods=['GET'])
+def result_edit():
+    return 'memo欄に登録する'
 
 @app.route('/sample', methods=['GET'])
 def hello():
