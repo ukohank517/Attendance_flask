@@ -16,21 +16,15 @@ def top():
 
 @app.route('/event/create', methods=['GET'])
 def event_create():
-    return 'event 登録するページ'
-
-@app.route('/event/info', methods=['GET'])
-def event_info():
-    event_id = request.args.get('event_id')
-    event_pswd = request.args.get('pswd')
-
-    return 'event_idとpswdで、予約人間リストを表示する、セットがなければ404に飛ばす'
+    page_title = 'イベント登録'
+    return render_template('event_create.html', page_title = page_title)
 
 @app.route('/event/entry', methods=['GET'])
 def event_entry():
     target_organization = request.args.get('organization_id')
     page_title = '常年期第x回弥撒'
     rest_seats = 10
-    return render_template('entry.html', page_title = page_title, rest_seats=rest_seats)
+    return render_template('event_entry.html', page_title = page_title, rest_seats=rest_seats)
 
 @app.route('/event/result', methods=['GET'])
 def event_result():
@@ -41,6 +35,13 @@ def event_result():
 @app.route('/event/result/edit', methods=['GET'])
 def event_result_edit():
     return 'memo欄に登録する'
+
+@app.route('/event/info', methods=['GET'])
+def event_info():
+    event_id = request.args.get('event_id')
+    event_pswd = request.args.get('pswd')
+
+    return 'event_idとpswdで、予約人間リストを表示する、セットがなければ404に飛ばす'
 
 @app.errorhandler(404)
 def error_404(error):
