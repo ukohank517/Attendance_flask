@@ -50,7 +50,7 @@
   |pk|カラム名|変数型|意味、コメント|デフォ|
   |--|--|--|--|--|
   |✔︎|ticket_id|INT|チケットID||
-  |✔︎|organization_id|VARCHAR(50)|組織ID||
+  |✔︎|event_id|VARCHAR(50)|イベントID||
   | |last_name|VARCHAR(50)|姓||
   | |first_name|VARCHAR(50)|名前||
   | |phone_number|VARCHAR(50)|電話番号||
