@@ -51,11 +51,10 @@
   |--|--|--|--|--|
   |✔︎|ticket_id|INT|チケットID||
   |✔︎|event_id|VARCHAR(50)|イベントID||
-  | |last_name|VARCHAR(50)|姓||
-  | |first_name|VARCHAR(50)|名前||
+  | |name|VARCHAR(100)|名前||
   | |phone_number|VARCHAR(50)|電話番号||
   | |email|VARCHAR(100)|メールアドレス||
-  | |famali_id|VARCHAR(50)|家族識別子(乱数)||
+  | |family_id|VARCHAR(50)|家族識別子(乱数)||
   | |comment|VARCHAR(250)|コメント||
   | |memo|VARCHAR(250)|メモ||
   | |version|INT|管理バージョン|1, インクリメント|
