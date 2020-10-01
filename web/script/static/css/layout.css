@@ -1,3 +1,27 @@
+header{
+    margin-top: 30px;
+    color: #43A047;
+}
+  
+h1{
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+  
+hr{
+    border-width: 5px;
+    width: 800px;
+    border-color: #43A047;
+}
+
+body{
+    height: 100%;
+    position: relative;
+    padding-bottom: 20px;/*←footerの高さ*/
+}
+
+
 /* footer用 */
 footer{
     font-size: 20px;

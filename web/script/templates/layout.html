@@ -8,15 +8,34 @@
         <link  href="/static/css/lib/bootstrap.min.css" rel="stylesheet"></link>
         <!-- setting -->
         <link  href="/static/css/layout.css" rel="stylesheet"></link>
-        <title>TITLE</title>
+        <title>Ticket System</title>
     </head>
 
     <body>
-        {% block body %}
-        {% endblock %}
+        
+        <div class="container">
+            <header>
+               <div class="row">
+                    <hr>
+                    {% if page_title %}
+                    <h1>{{ page_title }}</h1>
+                    {% endif %}
+                </div>
+            </header>
+        </div>
+        
+        <hr>
+
+        <div class="container-body">
+            {% block body %}
+            {% endblock %}
+        </div>
+
+        <hr>
+
     </body>
 
     <footer>
-        <p>©︎ 2020 ????</p>
+        <p>copyright © chinese-christian.jp  All Rights Reserved</p>
     </footer>
 </html>

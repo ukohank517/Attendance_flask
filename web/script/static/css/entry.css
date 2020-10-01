@@ -1,22 +1,5 @@
 @charset "utf-8";
 
-header{
-  margin-top: 30px;
-  color: #43A047;
-}
-hr{
-  border-width: 5px;
-  width: 800px;
-  border-color: #43A047;
-}
-h1{
-  font-size: 25px;
-  font-weight: bold;
-  text-align: center;
-}
-.align-light{
-    text-align: right;
-}
 /* 項目ラベル */
 .form-group{
   margin-bottom: 35px;

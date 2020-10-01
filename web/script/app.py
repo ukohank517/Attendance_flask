@@ -8,6 +8,12 @@ flask_conf_file = os.path.join(os.getcwd(), 'conf', 'flask_conf.cfg')
 app.config.from_pyfile(flask_conf_file)
 mail_file = os.path.join(os.getcwd(), 'data', 'personal_info.csv')
 
+@app.route('/')
+@app.route('/top')
+def top():
+    page_title = 'Top'
+    return render_template('top.html', page_title = page_title)
+
 @app.route('/event/create', methods=['GET'])
 def event_create():
     return 'event 登録するページ'
@@ -22,9 +28,9 @@ def event_info():
 @app.route('/event/entry', methods=['GET'])
 def event_entry():
     target_organization = request.args.get('organization_id')
-    event_name = '常年期第x回弥撒'
+    page_title = '常年期第x回弥撒'
     rest_seats = 10
-    return render_template('entry.html', rest_seats=rest_seats, event_name = event_name)
+    return render_template('entry.html', page_title = page_title, rest_seats=rest_seats)
 
 @app.route('/event/result', methods=['GET'])
 def event_result():
