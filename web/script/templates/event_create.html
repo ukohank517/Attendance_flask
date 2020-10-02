@@ -2,36 +2,46 @@
 {% block body %}
 
 <div class="container">
-    <form action="＃" method="get" class="row">
+    <form action="/event_create" method="POST" class="row">
         <div class="col-sm-8 col-sm-offset-2">
             <div class="form-group">
-                <label for="name"><span class="label label-danger">必須</span> お名前</label>
-                <div class="participant-name" >
-                    <input type="text" name="name[]" class="form-control" placeholder="名前" autofocus required>
-                </div>
+                <label for="event_id"><span class="label label-danger">必須</span> イベントID </label>
+                <input type="text" id="event_id"   name="event_id"   class="form-control" placeholder="eventname_yyyymmdd" autofocus required maxlength='90'>
+
             </div>
             <div class="form-group">
-                <label for="email"><span class="label label-danger">必須</span> メールアドレス</label>
-                <input type="email" id="email" name="email" class="form-control" placeholder="raffaello@jungleocean.com" required>
+                <label for="event_name"><span class="label label-danger">必須</span> イベント名 </label>
+                <input type="text" id="event_name" name="event_name" class="form-control" placeholder="event"       required maxlength='90' >
             </div>
             <div class="form-group">
-                <label for="tel"><span class="label label-danger">必須</span> 電話番号</label>
-                <input type="tel" id="tel" name="tel" class="form-control" placeholder="080-1234-5678" required>
+                <label for="pswd"><span class="label label-danger">必須</span> 閲覧用トークン </label>
+                <input type="text" id="pswd"       name="pswd"       class="form-control" placeholder="event_token" required maxlength='90' >
             </div>
+            <div class="form-group">
+                <label for="ticket_num"><span class="label label-danger">必須</span> チケット枚数</label>
+                <input type="number" id="ticket_num" name="ticket_num" class="form-control" placeholder="0 ~ 999,999,999" required oninput="sliceMaxLength(this, 9)">
+            </div>
+            <div class="form-group">
+                <label for="event_date"><span class="label label-danger">必須</span> イベント開催日 </label>
+                <input type="text" id="event_date" name="event_date" class="form-control" required oninput="enablePublicDate()">
+            </div>
+            <div class="form-group">
+                <label for="public_date"><span class="label label-danger">必須</span> チケット公開日(Default: １週間前) </label>
+                <input type="text" id="public_date" name="public_date" class="form-control" required disabled>
+            </div>
+
             <button type="submit" class="btn btn-primary">送信する</button>
         </div>
         
     </form>
 </div>
 
-event_id,
-event_name,
-(organization_id->unknown),
-pswd,
-ticket_num
-event_date
-(public_date)
+<script src="/static/js/form.js"></script>
+<link href="/static/css/form.css" rel="stylesheet"></link>
+<link href="/static/css/lib/flatpickr.min.css" rel="stylesheet"></link>
 
-<!-- <script src="/static/js/form.js"></script> -->
-<link  href="/static/css/form.css" rel="stylesheet"></link>
+
+
+<script src="/static/js/lib/flatpickr"></script>
+<script src="/static/js/lib/flatpickr-dist-l10n-ja.js"></script>
 {% endblock body%}
