@@ -6,11 +6,11 @@ CREATE TABLE `event` (
     ticket_num      INT                 NOT NULL,
     event_date      DATETIME(6)         NOT NULL,
     public_date     DATETIME(6)         NOT NULL,
-    version         INT                 NOT NULL,
+    version         INT                 NOT NULL DEFAULT 1,
     created_at      DATETIME(6)         NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     updated_at      DATETIME(6)         NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     deleted         BOOLEAN             NOT NULL DEFAULT FALSE,
-    PRIMARY KEY (organization_id)
+    PRIMARY KEY (event_id)
 );
 
 CREATE TABLE `ticket` (
@@ -22,12 +22,12 @@ CREATE TABLE `ticket` (
     family_id       VARCHAR(50)  NOT NULL,
     comment         VARCHAR(250) NOT NULL,
     memo            VARCHAR(250) NOT NULL,
-    version         INT          NOT NULL,
+    version         INT          NOT NULL DEFAULT 1,
     created_at      DATETIME(6)  NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     updated_at      DATETIME(6)  NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     deleted         BOOLEAN      NOT NULL DEFAULT FALSE,
-    PRIMARY KEY (ticket_id, organization_id),
-    FOREIGN KEY (organization_id) REFERENCES organization(organization_id)
+    PRIMARY KEY (ticket_id, event_id),
+    FOREIGN KEY (event_id) REFERENCES event(event_id)
 );
 
 CREATE TABLE `personal_info` (
@@ -40,6 +40,13 @@ CREATE TABLE `personal_info` (
     updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (mail_address)
 );
+
+
+INSERT INTO `event` (event_id, event_name, pswd, ticket_num, event_date, public_date)
+VALUES
+('test1', '表示テスト', 'pass', 2, '2020-10-20 00:00:00', '2020-9-20 00:00:00'),
+('test2', '表示しない', 'pass', 2, '2020-10-20 00:00:00', '2020-10-20 00:00:00');
+
 
 INSERT INTO `personal_info` (mail_address, sex, age, name, prefecture, createdAt, updatedAt)
 VALUES
