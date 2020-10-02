@@ -1,6 +1,6 @@
 header{
     margin-top: 30px;
-    color: #43A047;
+    color: #95c2de;
 }
   
 h1{
@@ -12,7 +12,7 @@ h1{
 hr{
     border-width: 5px;
     width: 800px;
-    border-color: #43A047;
+    border-color: #95c2de;
 }
 
 body{
@@ -28,7 +28,7 @@ footer{
     /*footerの装飾*/
     width: 100%;
     /* background-color: #89c7de; */
-    color: #43A047;
+    color: #95c2de;
     text-align: center;
 
     position: absolute;/*←絶対位置*/

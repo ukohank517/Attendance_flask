@@ -16,8 +16,7 @@ def top():
 
 @app.route('/event/create', methods=['GET'])
 def event_create():
-    page_title = 'イベント登録'
-    return render_template('event_create.html', page_title = page_title)
+    return render_template('event_create.html', page_title = 'イベント登録')
 
 @app.route('/event/entry', methods=['GET'])
 def event_entry():
@@ -45,7 +44,7 @@ def event_info():
 
 @app.errorhandler(404)
 def error_404(error):
-    return 'エラーが発生しました'
+    return render_template('404.html', page_title = '404')
 
 @app.route('/sample', methods=['GET'])
 def hello():
