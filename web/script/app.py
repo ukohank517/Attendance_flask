@@ -15,8 +15,35 @@ def top():
     return render_template('top.html', page_title = page_title)
 
 @app.route('/event/create', methods=['GET'])
-def event_create():
+def event_create_get():
     return render_template('event_create.html', page_title = 'イベント登録')
+
+@app.route('/event/create', methods=['POST'])
+def event_create_post():
+    event_id = request.form['event_id']
+    event_name = request.form['event_name']
+    pswd = request.form['pswd']
+    ticket_num = request.form['ticket_num']
+    event_date = request.form['event_date']
+    public_date = request.form['public_date']
+
+    sql = """
+    INSERT INTO `event` (event_id, event_name, pswd, ticket_num, event_date, public_date) 
+                 VALUES (       ?,          ?,    ?,          ?,          ?,           ?)
+    """
+
+    conn = MySQLdb.connect(user='root', passwd='pass', host='db_server', db='attendance')
+    cur = conn.cursor()
+    cur.execute("""
+    INSERT INTO `event` (    event_id,     event_name,     pswd,     ticket_num,     event_date,     public_date) 
+                 VALUES (%(event_id)s, %(event_name)s, %(pswd)s, %(ticket_num)s, %(event_date)s, %(public_date)s)
+    """, {'event_id': event_id, 'event_name': event_name, 'pswd': pswd, 'ticket_num': ticket_num, 'event_date': event_date, 'public_date': public_date})
+    conn.commit()
+    conn.close()
+
+
+    return  sql
+
 
 @app.route('/event/entry', methods=['GET'])
 def event_entry():
