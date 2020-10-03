@@ -33,7 +33,9 @@ class MySQL:
 
         return success_flag
     
-    def event_get(self, sql):
+    # injection対策のため、全部データ取って、サーバーで検索条件を実施
+    # とりあえずリクエスト数多くないので。。
+    def data_getter(self, sql):
         self._open()
         self.cur.execute(sql)
         return self.cur.fetchall()

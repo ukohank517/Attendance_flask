@@ -32,13 +32,21 @@ def event_create_post():
     # 失敗した時
     return error("msg")
 
-
 @app.route('/event/entry', methods=['GET'])
 def event_entry():
-    target_organization = request.args.get('organization_id')
-    page_title = '常年期第x回弥撒'
-    rest_seats = 10
-    return render_template('event_entry.html', page_title = page_title, rest_seats=rest_seats)
+    sql = 'select event_id, event_name from event'
+    rows = db.data_getter(sql)
+
+    event_id = request.args.get('event_id')
+    event_name = ""
+    for row in rows:
+        id, name =  row
+        if id == event_id:
+            event_name = name
+            print('@@@@@@@@@@@@@', str(name))
+
+    rest_seats = 10 # TODO: チケット残数
+    return render_template('event_entry.html', page_title = event_name, rest_seats=rest_seats)
 
 @app.route('/event/result', methods=['GET'])
 def event_result():
