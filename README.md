@@ -17,7 +17,7 @@
 - sql-db:
 
   ``` bash
-  docker exec -it [containerID] /bin/bash
+  docker-compose exec db /bin/bash
   mysql -u root -p
   ```
 
