@@ -1,6 +1,11 @@
 ### applog ###
 db-data
+### pythonerror cache ###
+web/script/__pycache__/
+
 
 ### IDE setting ###
 .vscode
+
+
 

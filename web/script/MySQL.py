@@ -1,9 +1,10 @@
 import MySQLdb
 
+# 多分大丈夫ですが、一応sql injectionとxssを気をつけながらsqlを設置
 class MySQL:
 
     def _open(self):
-        self.conn = MySQLdb.connect(user='root', passwd='pass', host='db_server', db='attendance')
+        self.conn = MySQLdb.connect(user='root', passwd='pass', host='db_server', db='attendance', charset='utf8')
         self.cur = self.conn.cursor()
 
     # event登録
@@ -31,3 +32,8 @@ class MySQL:
         self.conn.close()
 
         return success_flag
+    
+    def event_get(self, sql):
+        self._open()
+        self.cur.execute(sql)
+        return self.cur.fetchall()
