@@ -41,7 +41,8 @@ def event_entry():
         (E.ticket_num - count(*)) as rest_seats
     FROM event E 
     JOIN ticket T
-    ON E.event_id = T.event_id WHERE T.deleted = 0
+    ON E.event_id = T.event_id 
+    WHERE T.deleted = 0 AND CURRENT_TIMESTAMP() >= public_date
     GROUP BY event_id;
     """
     rows = db.data_getter(sql)
@@ -56,7 +57,7 @@ def event_entry():
             rest_seats = num
 
     if rest_seats <= 0:
-        return error('チケットはもう残ってませんよ！')
+        return error('イベント登録前orチケット在庫なし')
     
     return render_template('event_entry.html', page_title = event_name, rest_seats=rest_seats)
 
