@@ -2,6 +2,7 @@
 import os
 from flask import Flask, Blueprint, jsonify, request, Response, render_template
 import MySQLdb
+import random, string
 
 from MySQL import MySQL
 
@@ -30,7 +31,7 @@ def event_create_post():
         return "TODO: なんかのresultページ"
 
     # 失敗した時
-    return error("msg")
+    return error("イベント生成に失敗しました。")
 
 @app.route('/event/entry', methods=['GET'])
 def event_entry_get():
@@ -59,16 +60,19 @@ def event_entry_get():
     if rest_seats <= 0:
         return error('イベント登録前orチケット在庫なし')
     
-    return render_template('event_entry.html', page_title = event_name, rest_seats=rest_seats)
+    return render_template('event_entry.html', page_title = event_name, rest_seats=rest_seats, event_id=event_id)
 
 @app.route('/event/entry', methods=['POST'])
 def event_entry_post():
-    namelist = request.form.getlist('name')
-    tel = request.form['tel']
-    email = request.form['email']
-    comment = request.form['email']
+    # TODO: validation: 
 
-    return "TODO: なんかのresultページ"
+    family_id = randomToken(32)
+    res = db.ticket_insert(request, family_id)
+    if res:
+        return "TODO: なんかのresultページ"
+
+    # 失敗した時
+    return error("チケット取得に失敗しました。再度登録してみてくださいmm")
 
 @app.route('/event/result', methods=['GET'])
 def event_result():
@@ -120,6 +124,10 @@ def search_query(sql):
     cur = conn.cursor()
     cur.execute(sql)
     return cur.fetchall()
+
+# ランダム文字列
+def randomToken(n):
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
 
 
 if __name__ == '__main__':
