@@ -8,7 +8,7 @@ $('#family_number').change(function() {
     let family_number = $('#family_number').val();
 
     let html_text = '';
-    let participant_name_html = '<div class="participant-name" > <input type="text" name="name[]" class="form-control" placeholder="名前" required> </div>';
+    let participant_name_html = '<div class="participant-name" > <input type="text" name="name" class="form-control" placeholder="名前" required> </div>';
     
     for(let step = 0; step < family_number; step ++){
         html_text = html_text + participant_name_html.replace('名前', '名前' + (step+1));

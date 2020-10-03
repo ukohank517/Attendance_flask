@@ -33,7 +33,7 @@ def event_create_post():
     return error("msg")
 
 @app.route('/event/entry', methods=['GET'])
-def event_entry():
+def event_entry_get():
     sql = """
     SELECT 
         E.event_id, 
@@ -60,6 +60,15 @@ def event_entry():
         return error('イベント登録前orチケット在庫なし')
     
     return render_template('event_entry.html', page_title = event_name, rest_seats=rest_seats)
+
+@app.route('/event/entry', methods=['POST'])
+def event_entry_post():
+    namelist = request.form.getlist('name')
+    tel = request.form['tel']
+    email = request.form['email']
+    comment = request.form['email']
+
+    return "TODO: なんかのresultページ"
 
 @app.route('/event/result', methods=['GET'])
 def event_result():
