@@ -44,7 +44,7 @@ CREATE TABLE `personal_info` (
 
 INSERT INTO `event` (event_id, event_name, pswd, ticket_num, event_date, public_date)
 VALUES
-('test3', '表示テスト', 'pass', 2, '2020-10-20', '2020-9-20'),
+('test1', '表示テスト', 'pass', 2, '2020-10-20', '2020-9-20'),
 ('test2', '表示しない', 'pass', 2, '2020-10-20', '2020-10-20');
 
 

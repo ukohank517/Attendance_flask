@@ -1,9 +1,13 @@
 # coding=utf-8
 import os
-from flask import Flask, Blueprint, jsonify, request, render_template
+from flask import Flask, Blueprint, jsonify, request, Response, render_template
 import MySQLdb
 
+from MySQL import MySQL
+
+db = MySQL()
 app = Flask(__name__)
+
 flask_conf_file = os.path.join(os.getcwd(), 'conf', 'flask_conf.cfg')
 app.config.from_pyfile(flask_conf_file)
 mail_file = os.path.join(os.getcwd(), 'data', 'personal_info.csv')
@@ -20,29 +24,13 @@ def event_create_get():
 
 @app.route('/event/create', methods=['POST'])
 def event_create_post():
-    event_id = request.form['event_id']
-    event_name = request.form['event_name']
-    pswd = request.form['pswd']
-    ticket_num = request.form['ticket_num']
-    event_date = request.form['event_date']
-    public_date = request.form['public_date']
+    # TODO: validation: 
+    res = db.event_insert(request)
+    if res:
+        return "TODO: なんかのresultページ"
 
-    sql = """
-    INSERT INTO `event` (event_id, event_name, pswd, ticket_num, event_date, public_date) 
-                 VALUES (       ?,          ?,    ?,          ?,          ?,           ?)
-    """
-
-    conn = MySQLdb.connect(user='root', passwd='pass', host='db_server', db='attendance')
-    cur = conn.cursor()
-    cur.execute("""
-    INSERT INTO `event` (    event_id,     event_name,     pswd,     ticket_num,     event_date,     public_date) 
-                 VALUES (%(event_id)s, %(event_name)s, %(pswd)s, %(ticket_num)s, %(event_date)s, %(public_date)s)
-    """, {'event_id': event_id, 'event_name': event_name, 'pswd': pswd, 'ticket_num': ticket_num, 'event_date': event_date, 'public_date': public_date})
-    conn.commit()
-    conn.close()
-
-
-    return  sql
+    # 失敗した時
+    return error("msg")
 
 
 @app.route('/event/entry', methods=['GET'])
@@ -93,6 +81,10 @@ def hello():
 
     result_dict['mail_address_list'] = mail_address_list
     return jsonify(result_dict)
+
+def error(msg):
+    print('Error: ', msg)
+    return render_template('error.html', page_title = 'unknown')
 
 def search_query(sql):
     conn = MySQLdb.connect(user='root', passwd='pass', host='db_server', db='attendance')
