@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="panel panel-primary">
+	<div class="panel-heading">
+        チケット情報
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered">
+            <tr>
+                <th class="info" width="30%">チケットID</th>
+                <td class="info" width="30%">名前</td>
+                <td class="info" width="30%">体温</td>
+            </tr>
+            {% for user in info['user_list'] %}
+            <tr>
+                <th>{{ user['ticket_id'] }} </th>
+                <td>{{ user['name'] }}</td>
+                <td>{{ user['memo'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <button class="btn btn-info"> 修正 </button>
+	</div>
+</div>
+
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		連絡先情報
+	</div>
+	<div class="panel-body">
+        <table class="table table-bordered">
+            <tr>
+                <th class="info">電話番号</th>
+                <td>{{ info['tel'] }}</td>
+            </tr>
+            <tr>
+                <th class="info">メアド</th>
+                <td>{{ info['email'] }}</td>
+            </tr>
+            {% if info['comment'] %}
+            <tr>
+                <th class="info">コメント</th>
+                <td>{{ info['comment'] }}</td>
+            </tr>
+            {% endif %}
+        </table>
+	</div>
+</div>
+
+<!-- <script src="/static/js/entry.js"></script>
+<link  href="/static/css/form.css" rel="stylesheet"></link> -->
+{% endblock body %}

@@ -33,6 +33,7 @@ def event_create_post():
     # 失敗した時
     return error("イベント生成に失敗しました。")
 
+# イベントのチケットを発行するフォーム
 @app.route('/event/entry', methods=['GET'])
 def event_entry_get():
     sql = """
@@ -52,7 +53,7 @@ def event_entry_get():
     event_name = ""
     rest_seats = 0
     for row in rows:
-        id, name, num =  row
+        id, name, num = row
         if id == event_id:
             event_name = name
             rest_seats = num
@@ -62,6 +63,7 @@ def event_entry_get():
     
     return render_template('event_entry.html', page_title = event_name, rest_seats=rest_seats, event_id=event_id)
 
+# イベントのチケットを発行する処理を行う
 @app.route('/event/entry', methods=['POST'])
 def event_entry_post():
     # TODO: validation: 
@@ -69,19 +71,59 @@ def event_entry_post():
     family_id = randomToken(32)
     res = db.ticket_insert(request, family_id)
     if res:
-        return "TODO: なんかのresultページ"
+        return "TODO: チケットのresultページ"
 
     # 失敗した時
     return error("チケット取得に失敗しました。再度登録してみてくださいmm")
 
-@app.route('/event/result', methods=['GET'])
-def event_result():
-    event_id = request.args.get('event_id')
-    famali_id = request.args.get('famali_id')
-    return '詳細ページ表示、QRコードがここで表示する'
+# 取得チケットの情報を表示する
+@app.route('/ticket/result', methods=['GET'])
+def ticket_result():
+    aim_event_id = request.args.get('event_id')
+    aim_family_id = request.args.get('family_id')
 
-@app.route('/event/result/edit', methods=['GET'])
-def event_result_edit():
+    sql="""
+        SELECT
+            event_id,
+            family_id,
+            ticket_id,
+            CONCAT('**', right(name, 1)) as name,
+            CONCAT( left(phone_number, 3),  '****', RIGHT(phone_number, 4)) as tel,
+            CONCAT( left(email, 4), '****' ) as email,
+            comment,
+            memo
+        FROM ticket WHERE deleted = FALSE;
+    """
+    rows = db.data_getter(sql)
+
+    info = {}
+    info['tel'] = ''
+    info['email'] = ''
+    info['comment'] = ''
+    info['user_list'] = []
+
+    for row in rows:
+        _event_id, _family_id, _ticket_id, _name, _tel, _email, _comment, _memo = row
+        if (_event_id == aim_event_id) and (_family_id == aim_family_id):
+            info['tel'] = _tel
+            info['email'] = _email
+            info['comment'] = _comment
+            user = {}
+            user['name'] = _name
+            user['memo'] = _memo
+            user['ticket_id'] = _ticket_id
+            info['user_list'].append(user)
+
+    if len(info['user_list']) <= 0 :
+        return error('該当する情報が見つかりませんでした')
+    
+    return render_template('ticket_detail.html', page_title = 'Ticket', info=info)
+
+# 取得するチケットの情報を修正する(memo欄のみが修正できる)
+@app.route('/ticket/result/edit', methods=['GET'])
+def ticket_result_edit():
+    aim_event_id = request.args.get('event_id')
+    aim_family_id = request.args.get('family_id')
     return 'memo欄に登録する'
 
 @app.route('/event/info', methods=['GET'])
