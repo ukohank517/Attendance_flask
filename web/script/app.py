@@ -95,27 +95,6 @@ def event_info():
 def error_404(error):
     return render_template('404.html', page_title = '404')
 
-@app.route('/sample', methods=['GET'])
-def hello():
-    target_prefecture = request.args.get('pref')
-
-    sql = "select * from personal_info;"
-    rows = search_query(sql)
-
-    result_dict = {}
-    mail_address_list = []
-
-    for row in rows:
-        mail_add, sex, age, name, prefecture, insert_date, update_date = row
-        if target_prefecture:
-            if prefecture == target_prefecture:
-                mail_address_list.append(mail_add)
-        else:
-            mail_address_list.append(mail_add)
-
-    result_dict['mail_address_list'] = mail_address_list
-    return jsonify(result_dict)
-
 def error(msg):
     return render_template('error.html', page_title = 'unknown', msg = msg)
 
