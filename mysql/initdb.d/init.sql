@@ -45,17 +45,19 @@ CREATE TABLE `personal_info` (
 INSERT INTO `event` (event_id, event_name, pswd, ticket_num, event_date, public_date)
 VALUES
 ('test1', '表示テスト', 'pass', 20, '2020-10-20', '2020-9-20'),
-('test2', '表示しない', 'pass', 12, '2020-10-20', '2020-10-20');
+('test2', '公開日で表示しない', 'pass', 12, '2020-10-20', '2020-10-20'),
+('test3', 'チケット枚数足りない', 'pass', 1, '2020-10-20', '2020-10-20');
 
-INSERT INTO `ticket` (ticket_id, event_id, name, phone_number, email, family_id, comment, memo)
+INSERT INTO `ticket` (ticket_id, event_id, name, phone_number, email, family_id, comment, memo, deleted)
 VALUES
-(1, 'test1', 'name1', '08012345678', 'test@mail.com', 'family1', '', ''),
-(2, 'test1', 'name2', '08012345678', 'test@mail.com', 'family1', '', ''),
-(3, 'test1', 'name3', '08012345678', 'test@mail.com', 'family1', '', ''),
-(4, 'test1', 'name4', '08012345678', 'test@mail.com', 'family2', '', ''),
-(5, 'test1', 'name5', '08012345678', 'test@mail.com', 'family3', '', ''),
-(1, 'test2', 'name1', '08012345678', 'test@mail.com', 'family1', '', ''),
-(2, 'test2', 'name2', '08012345678', 'test@mail.com', 'family1', '', '');
+(1, 'test1', 'name1', '08012345678', 'test@mail.com', 'family1', '', '', FALSE),
+(2, 'test1', 'name2', '08012345678', 'test@mail.com', 'family1', '', '', FALSE),
+(3, 'test1', 'name3', '08012345678', 'test@mail.com', 'family1', '', '', TRUE),
+(4, 'test1', 'name4', '08012345678', 'test@mail.com', 'family2', '', '', FALSE),
+(5, 'test1', 'name5', '08012345678', 'test@mail.com', 'family3', '', '', FALSE),
+(1, 'test2', 'name1', '08012345678', 'test@mail.com', 'family1', '', '', FALSE),
+(2, 'test2', 'name2', '08012345678', 'test@mail.com', 'family1', '', '', FALSE),
+(1, 'test3', 'name1', '08012345678', 'test@mail.com', 'family1', '', '', FALSE);
 
 
 INSERT INTO `personal_info` (mail_address, sex, age, name, prefecture, createdAt, updatedAt)

@@ -34,18 +34,30 @@ def event_create_post():
 
 @app.route('/event/entry', methods=['GET'])
 def event_entry():
-    sql = 'select event_id, event_name from event'
+    sql = """
+    SELECT 
+        E.event_id, 
+        E.event_name, 
+        (E.ticket_num - count(*)) as rest_seats
+    FROM event E 
+    JOIN ticket T
+    ON E.event_id = T.event_id WHERE T.deleted = 0
+    GROUP BY event_id;
+    """
     rows = db.data_getter(sql)
 
     event_id = request.args.get('event_id')
     event_name = ""
+    rest_seats = 0
     for row in rows:
-        id, name =  row
+        id, name, num =  row
         if id == event_id:
             event_name = name
-            print('@@@@@@@@@@@@@', str(name))
+            rest_seats = num
 
-    rest_seats = 10 # TODO: チケット残数
+    if rest_seats <= 0:
+        return error('チケットはもう残ってませんよ！')
+    
     return render_template('event_entry.html', page_title = event_name, rest_seats=rest_seats)
 
 @app.route('/event/result', methods=['GET'])
@@ -91,8 +103,7 @@ def hello():
     return jsonify(result_dict)
 
 def error(msg):
-    print('Error: ', msg)
-    return render_template('error.html', page_title = 'unknown')
+    return render_template('error.html', page_title = 'unknown', msg = msg)
 
 def search_query(sql):
     conn = MySQLdb.connect(user='root', passwd='pass', host='db_server', db='attendance')

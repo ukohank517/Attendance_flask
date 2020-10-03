@@ -4,7 +4,13 @@
 <div class = "body2">
     <div class="mainbox">
         <i class="far fa-question-circle fa-spin"></i>
-        <div class="msg">Is hiding out in quarantine? Never existed in the first place?<p>Let's go <a href="#">home</a> and try from there.</p></div>
+        <div class="msg">
+            {% if msg %}
+            { msg }
+            {% else %}
+            Is hiding out in quarantine? Never existed in the first place?<p>Let's go <a href="#">home</a> and try from there.</p>
+            {% endif %}
+        </div>
     </div>
 </div>
 
