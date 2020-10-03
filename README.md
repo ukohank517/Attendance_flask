@@ -5,13 +5,13 @@
 
 - 出席確認
 
-## 使い方
+### 使い方
 
 - 設定ファイル: docker-compose.yaml
 
-- アプリ起動: 
+- アプリ起動(初期化): 
   ```
-  docker-compose up -d
+  docker-compose up -d #(--update)
   ```
 
 - sql-db:
@@ -20,6 +20,9 @@
   docker-compose exec db /bin/bash
   mysql -u root -p
   ```
+
+- data初期化
+  初期化時データは`init.sql`によって作成され、`db-data` によって永続化されています。テストデータいらなくなったら`db-data`消してアプリを再度初期化すればDBが再度初期化されます。
 
 # 設計書
 
