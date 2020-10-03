@@ -77,8 +77,27 @@ def event_entry_post():
     return error("チケット取得に失敗しました。再度登録してみてくださいmm")
 
 # 取得チケットの情報を表示する
-@app.route('/ticket/result', methods=['GET'])
-def ticket_result():
+@app.route('/ticket/result/view', methods=['GET'])
+def ticket_result_view():
+    return ticket_detail(request, "view")
+
+# 取得するチケットの情報を修正する(memo欄のみが修正できる)
+@app.route('/ticket/result/edit', methods=['GET'])
+def ticket_result_edit():
+    return ticket_detail(request, "edit")
+
+@app.route('/event/info', methods=['GET'])
+def event_info():
+    event_id = request.args.get('event_id')
+    event_pswd = request.args.get('pswd')
+
+    return 'event_idとpswdで、予約人間リストを表示する、セットがなければ404に飛ばす'
+
+@app.errorhandler(404)
+def error_404(error):
+    return render_template('404.html', page_title = '404')
+
+def ticket_detail(request, action_type):
     aim_event_id = request.args.get('event_id')
     aim_family_id = request.args.get('family_id')
 
@@ -117,25 +136,7 @@ def ticket_result():
     if len(info['user_list']) <= 0 :
         return error('該当する情報が見つかりませんでした')
     
-    return render_template('ticket_detail.html', page_title = 'Ticket', info=info)
-
-# 取得するチケットの情報を修正する(memo欄のみが修正できる)
-@app.route('/ticket/result/edit', methods=['GET'])
-def ticket_result_edit():
-    aim_event_id = request.args.get('event_id')
-    aim_family_id = request.args.get('family_id')
-    return 'memo欄に登録する'
-
-@app.route('/event/info', methods=['GET'])
-def event_info():
-    event_id = request.args.get('event_id')
-    event_pswd = request.args.get('pswd')
-
-    return 'event_idとpswdで、予約人間リストを表示する、セットがなければ404に飛ばす'
-
-@app.errorhandler(404)
-def error_404(error):
-    return render_template('404.html', page_title = '404')
+    return render_template('ticket_detail.html', page_title = 'Ticket', info=info, action_type=action_type)
 
 def error(msg):
     return render_template('error.html', page_title = 'unknown', msg = msg)
