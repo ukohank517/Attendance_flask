@@ -1,19 +1,18 @@
 # coding=utf-8
 import os
-from flask import Flask, Blueprint, jsonify, request, Response, render_template
 import MySQLdb
 import random, string
-
+from flask import Flask, Blueprint, jsonify, request, Response, render_template
 from MySQL import MySQL
 
 db = MySQL()
 app = Flask(__name__)
 
-from api import api
+# from api import api
 
-flask_conf_file = os.path.join(os.getcwd(), 'conf', 'flask_conf.cfg')
-app.config.from_pyfile(flask_conf_file)
-mail_file = os.path.join(os.getcwd(), 'data', 'personal_info.csv')
+# flask_conf_file = os.path.join(os.getcwd(), 'conf', 'flask_conf.cfg')
+# app.config.from_pyfile(flask_conf_file)
+# mail_file = os.path.join(os.getcwd(), 'data', 'personal_info.csv')
 
 @app.route('/')
 @app.route('/top')
@@ -143,19 +142,20 @@ def ticket_detail(request, action_type):
 def error(msg):
     return render_template('error.html', page_title = 'unknown', msg = msg)
 
-def search_query(sql):
-    conn = MySQLdb.connect(user='root', passwd='pass', host='db_server', db='attendance')
-    cur = conn.cursor()
-    cur.execute(sql)
-    return cur.fetchall()
-
 # ランダム文字列
 def randomToken(n):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
 
 
+# API
+@app.route('/ticket/result/update', methods=['POST'])
+def ticket_result_update():    
+    db.ticket_update(request)
+    return jsonify(success=True)
 
-app.register_blueprint(api)
+
+
+# app.register_blueprint(api)
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
     # 最終的にはここは消す。以下の手順でアプリケーションを起動する。

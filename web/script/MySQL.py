@@ -63,6 +63,29 @@ class MySQL:
         self.conn.close()
 
         return True
+
+    def ticket_update(self, request):
+        event_id = request.get_json()['event_id']
+        json_list = request.get_json()['ticket_memo_list']
+
+        self._open()
+        for json in json_list:
+            try:
+                memo = json['memo']
+                ticket_id = json['ticket_id']
+
+                res = self.cur.execute("""
+                UPDATE ticket SET memo = %(memo)s WHERE event_id = %(event_id)s AND ticket_id = %(ticket_id)s;
+                """, {'event_id': event_id, 'ticket_id': ticket_id, 'memo': memo})
+            except MySQLdb.Error as e:
+                print('Mysqldb.Error: ', e)
+                return False
+
+        self.conn.commit()
+        self.conn.close()
+
+        return True
+
     
     # injection対策のため、全部データ取って、サーバーで検索条件を実施
     # とりあえずリクエスト数多くないので。。
