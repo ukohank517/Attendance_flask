@@ -13,12 +13,12 @@
                 <td class="info" width="30%">体温</td>
             </tr>
             {% for user in info['user_list'] %}
-            <tr>
-                <th>{{ user['ticket_id'] }} </th>
+            <tr class="member_info">
+                <th class="ticket_id" value="{{ user['ticket_id'] }}" >{{ user['ticket_id'] }} </th>
                 <td>{{ user['name'] }}</td>
                 <td>
                     {% if action_type=="edit" %}
-                    <input type="text" size="50" maxlength="100" name="hoge01" value="{{ user['memo'] }}">                    
+                    <input type="text" size="50" maxlength="100" name="memo" class="memo" value="{{ user['memo'] }}"> 
                     {% else %}
                     {{ user['memo'] }}
                     {% endif %}
@@ -27,7 +27,9 @@
             {% endfor %}
         </table>
         {% if action_type=="edit" %}
-        <button class="btn btn-info" onClick="update()"> 情報反映 </button>
+        <form action="/ticket/result/update" name="updateForm" method="POST">
+        </form>
+        <button class="btn btn-info" onclick="update()">情報更新</button>
         {% else %}
         <button class="btn btn-info" onClick="toedit()"> 情報修正 </button>
         {% endif %}

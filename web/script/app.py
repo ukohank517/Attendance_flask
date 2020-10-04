@@ -9,6 +9,8 @@ from MySQL import MySQL
 db = MySQL()
 app = Flask(__name__)
 
+from api import api
+
 flask_conf_file = os.path.join(os.getcwd(), 'conf', 'flask_conf.cfg')
 app.config.from_pyfile(flask_conf_file)
 mail_file = os.path.join(os.getcwd(), 'data', 'personal_info.csv')
@@ -152,6 +154,8 @@ def randomToken(n):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
 
 
+
+app.register_blueprint(api)
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
     # 最終的にはここは消す。以下の手順でアプリケーションを起動する。
