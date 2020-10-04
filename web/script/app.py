@@ -1,16 +1,18 @@
 # coding=utf-8
 import os
-from flask import Flask, Blueprint, jsonify, request, Response, render_template
 import MySQLdb
-
+import random, string
+from flask import Flask, Blueprint, jsonify, request, Response, render_template
 from MySQL import MySQL
 
 db = MySQL()
 app = Flask(__name__)
 
-flask_conf_file = os.path.join(os.getcwd(), 'conf', 'flask_conf.cfg')
-app.config.from_pyfile(flask_conf_file)
-mail_file = os.path.join(os.getcwd(), 'data', 'personal_info.csv')
+# from api import api
+
+# flask_conf_file = os.path.join(os.getcwd(), 'conf', 'flask_conf.cfg')
+# app.config.from_pyfile(flask_conf_file)
+# mail_file = os.path.join(os.getcwd(), 'data', 'personal_info.csv')
 
 @app.route('/')
 @app.route('/top')
@@ -30,10 +32,11 @@ def event_create_post():
         return "TODO: なんかのresultページ"
 
     # 失敗した時
-    return error("msg")
+    return error("イベント生成に失敗しました。")
 
+# イベントのチケットを発行するフォーム
 @app.route('/event/entry', methods=['GET'])
-def event_entry():
+def event_entry_get():
     sql = """
     SELECT 
         E.event_id, 
@@ -41,7 +44,8 @@ def event_entry():
         (E.ticket_num - count(*)) as rest_seats
     FROM event E 
     JOIN ticket T
-    ON E.event_id = T.event_id WHERE T.deleted = 0
+    ON E.event_id = T.event_id 
+    WHERE T.deleted = 0 AND CURRENT_TIMESTAMP() >= public_date
     GROUP BY event_id;
     """
     rows = db.data_getter(sql)
@@ -50,25 +54,38 @@ def event_entry():
     event_name = ""
     rest_seats = 0
     for row in rows:
-        id, name, num =  row
+        id, name, num = row
         if id == event_id:
             event_name = name
             rest_seats = num
 
     if rest_seats <= 0:
-        return error('チケットはもう残ってませんよ！')
+        return error('イベント登録前orチケット在庫なし')
     
-    return render_template('event_entry.html', page_title = event_name, rest_seats=rest_seats)
+    return render_template('event_entry.html', page_title = event_name, rest_seats=rest_seats, event_id=event_id)
 
-@app.route('/event/result', methods=['GET'])
-def event_result():
-    event_id = request.args.get('event_id')
-    famali_id = request.args.get('famali_id')
-    return '詳細ページ表示、QRコードがここで表示する'
+# イベントのチケットを発行する処理を行う
+@app.route('/event/entry', methods=['POST'])
+def event_entry_post():
+    # TODO: validation: 
 
-@app.route('/event/result/edit', methods=['GET'])
-def event_result_edit():
-    return 'memo欄に登録する'
+    family_id = randomToken(32)
+    res = db.ticket_insert(request, family_id)
+    if res:
+        return "TODO: チケットのresultページ"
+
+    # 失敗した時
+    return error("チケット取得に失敗しました。再度登録してみてくださいmm")
+
+# 取得チケットの情報を表示する
+@app.route('/ticket/result/view', methods=['GET'])
+def ticket_result_view():
+    return ticket_detail(request, "view")
+
+# 取得するチケットの情報を修正する(memo欄のみが修正できる)
+@app.route('/ticket/result/edit', methods=['GET'])
+def ticket_result_edit():
+    return ticket_detail(request, "edit")
 
 @app.route('/event/info', methods=['GET'])
 def event_info():
@@ -81,37 +98,64 @@ def event_info():
 def error_404(error):
     return render_template('404.html', page_title = '404')
 
-@app.route('/sample', methods=['GET'])
-def hello():
-    target_prefecture = request.args.get('pref')
+def ticket_detail(request, action_type):
+    aim_event_id = request.args.get('event_id')
+    aim_family_id = request.args.get('family_id')
 
-    sql = "select * from personal_info;"
-    rows = search_query(sql)
+    sql="""
+        SELECT
+            event_id,
+            family_id,
+            ticket_id,
+            CONCAT('**', right(name, 1)) as name,
+            CONCAT( left(phone_number, 3),  '****', RIGHT(phone_number, 4)) as tel,
+            CONCAT( left(email, 4), '****' ) as email,
+            comment,
+            memo
+        FROM ticket WHERE deleted = FALSE;
+    """
+    rows = db.data_getter(sql)
 
-    result_dict = {}
-    mail_address_list = []
+    info = {}
+    info['tel'] = ''
+    info['email'] = ''
+    info['comment'] = ''
+    info['user_list'] = []
 
     for row in rows:
-        mail_add, sex, age, name, prefecture, insert_date, update_date = row
-        if target_prefecture:
-            if prefecture == target_prefecture:
-                mail_address_list.append(mail_add)
-        else:
-            mail_address_list.append(mail_add)
+        _event_id, _family_id, _ticket_id, _name, _tel, _email, _comment, _memo = row
+        if (_event_id == aim_event_id) and (_family_id == aim_family_id):
+            info['tel'] = _tel
+            info['email'] = _email
+            info['comment'] = _comment
+            user = {}
+            user['name'] = _name
+            user['memo'] = _memo
+            user['ticket_id'] = _ticket_id
+            info['user_list'].append(user)
 
-    result_dict['mail_address_list'] = mail_address_list
-    return jsonify(result_dict)
+    if len(info['user_list']) <= 0 :
+        return error('該当する情報が見つかりませんでした')
+    
+    return render_template('ticket_detail.html', page_title = 'Ticket', info=info, action_type=action_type)
 
 def error(msg):
     return render_template('error.html', page_title = 'unknown', msg = msg)
 
-def search_query(sql):
-    conn = MySQLdb.connect(user='root', passwd='pass', host='db_server', db='attendance')
-    cur = conn.cursor()
-    cur.execute(sql)
-    return cur.fetchall()
+# ランダム文字列
+def randomToken(n):
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
 
 
+# API
+@app.route('/ticket/result/update', methods=['POST'])
+def ticket_result_update():    
+    db.ticket_update(request)
+    return jsonify(success=True)
+
+
+
+# app.register_blueprint(api)
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
     # 最終的にはここは消す。以下の手順でアプリケーションを起動する。

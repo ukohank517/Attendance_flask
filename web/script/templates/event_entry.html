@@ -2,12 +2,13 @@
 {% block body %}
 
 <div class="container">
-    <form action="＃" method="get" class="row">
+    <form action="/event/entry" method="post" class="row">
         <div class="col-sm-8 col-sm-offset-2">
+            <input type="hidden" name="event_id" value={{ event_id }}>
             <div class="form-group">
-                <label for="family_number"><span class="label label-danger">必須</span>人数</label>
+                <label for="family_number"><span class="label label-danger">必須</span>人数(最大20人)</label>
                 <select id="family_number" name="family_number" class="form-control">
-                   {% for i in range(rest_seats) %}
+                   {% for i in range([rest_seats, 20]|min) %}
                    <option value="{{ i + 1 }}">{{ i + 1 }}</option>
                    {% endfor %}
                 </select>
@@ -16,24 +17,26 @@
             <div class="form-group">
                 <label for="name"><span class="label label-danger">必須</span> お名前</label>
                 <div class="participant-name" >
-                    <input type="text" name="name[]" class="form-control" placeholder="名前" autofocus required>
+                    <input type="text" name="name" class="form-control" placeholder="名前" autofocus required maxlength='90'>
                 </div>
             </div>
             <div class="form-group">
-                <label for="email"><span class="label label-danger">必須</span> メールアドレス</label>
-                <input type="email" id="email" name="email" class="form-control" placeholder="raffaello@jungleocean.com" required>
+                <label for="phone_number"><span class="label label-danger">必須</span> 電話番号 </label>
+                <input type="phone_number" id="phone_number" name="phone_number" class="form-control" placeholder="08012345678" required>
             </div>
             <div class="form-group">
-                <label for="tel"><span class="label label-danger">必須</span> 電話番号</label>
-                <input type="tel" id="tel" name="tel" class="form-control" placeholder="080-1234-5678" required>
+                <label for="email"><span class="label label-danger">必須</span> メールアドレス</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="sample@mail.com" required maxlength='90'>
+            </div>
+            <div class="form-group">
+                <label for="comment"><span class="label label-success">任意</span> コメント </label>
+                <input type="text" id="comment" name="comment" class="form-control" placeholder="コメント" maxlength='200'>
             </div>
             <button type="submit" class="btn btn-primary">送信する</button>
         </div>
         
     </form>
 </div>
-
-TODO: name[], phone_nnumber, email, family_id, comment
 
 <script src="/static/js/entry.js"></script>
 <link  href="/static/css/form.css" rel="stylesheet"></link>

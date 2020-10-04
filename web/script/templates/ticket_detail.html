@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="panel panel-primary">
+	<div class="panel-heading">
+        チケット情報
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered">
+            <tr>
+                <th class="info" width="30%">チケットID</th>
+                <td class="info" width="30%">名前</td>
+                <td class="info" width="30%">体温</td>
+            </tr>
+            {% for user in info['user_list'] %}
+            <tr class="member_info">
+                <th class="ticket_id" value="{{ user['ticket_id'] }}" >{{ user['ticket_id'] }} </th>
+                <td>{{ user['name'] }}</td>
+                <td>
+                    {% if action_type=="edit" %}
+                    <input type="text" size="50" maxlength="100" name="memo" class="memo" value="{{ user['memo'] }}"> 
+                    {% else %}
+                    {{ user['memo'] }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% if action_type=="edit" %}
+        <form action="/ticket/result/update" name="updateForm" method="POST">
+        </form>
+        <button class="btn btn-info" onclick="update()">情報更新</button>
+        {% else %}
+        <button class="btn btn-info" onClick="toedit()"> 情報修正 </button>
+        {% endif %}
+
+
+	</div>
+</div>
+
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		連絡先情報
+	</div>
+	<div class="panel-body">
+        <table class="table table-bordered">
+            <tr>
+                <th class="info">電話番号</th>
+                <td>{{ info['tel'] }}</td>
+            </tr>
+            <tr>
+                <th class="info">メアド</th>
+                <td>{{ info['email'] }}</td>
+            </tr>
+            {% if info['comment'] %}
+            <tr>
+                <th class="info">コメント</th>
+                <td>{{ info['comment'] }}</td>
+            </tr>
+            {% endif %}
+        </table>
+	</div>
+</div>
+
+<script src="/static/js/ticket_detail.js"></script>
+<!-- <link  href="/static/css/form.css" rel="stylesheet"></link> -->
+{% endblock body %}
