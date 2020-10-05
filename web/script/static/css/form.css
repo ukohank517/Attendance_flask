@@ -1,8 +1,16 @@
 @charset "utf-8";
-
+.container{
+  width: 800px;
+}
+.row{
+  margin: auto;
+  width: 100%;
+}
 /* 項目ラベル */
 .form-group{
   margin-bottom: 35px;
+  width: 100%;
+  margin: auto;
 }
 /* 項目placeholder size */
 .form-control{

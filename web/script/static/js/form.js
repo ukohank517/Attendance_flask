@@ -2,7 +2,7 @@ $(document).ready(function(){
     // 読み込み後に実行する処理
     flatpickr.localize(flatpickr.l10ns.ja);
     flatpickr('#event_date');
-  });
+});
 
 
 // 数字の長さ制限

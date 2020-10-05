@@ -1,7 +1,7 @@
 # coding=utf-8
 import os
 import MySQLdb
-import random, string
+import random, string, textwrap, qrcode
 from flask import Flask, Blueprint, jsonify, request, Response, render_template
 from MySQL import MySQL
 
@@ -29,7 +29,16 @@ def event_create_post():
     # TODO: validation: 
     res = db.event_insert(request)
     if res:
-        return "TODO: なんかのresultページ"
+        event_id = request.form['event_id']
+        url = request.host_url + 'event/entry?event_id=' + event_id
+        msg = textwrap.dedent("""
+                <h1>!!!!!!!!!このページをメモってください!!!!!!!!!<h1>
+                <br>
+                イベントが作成されました： <br>
+                下記のURLをコピーしてシェアしてください： <br>
+                <h1> {url} </h1>
+            """).format(url = url)
+        return result(msg)
 
     # 失敗した時
     return error("イベント生成に失敗しました。")
@@ -72,7 +81,14 @@ def event_entry_post():
     family_id = randomToken(32)
     res = db.ticket_insert(request, family_id)
     if res:
-        return "TODO: チケットのresultページ"
+        msg = textwrap.dedent("""
+                チケットがx枚予約しました<br>
+                QRコードがこちら::<br>
+                <h1>TODO: QR</h1>
+                予約内容がメールに送信しました。<br>
+                受信が確認できない場合は開発者まで連絡してみてください。<br>
+            """)
+        return result(msg)
 
     # 失敗した時
     return error("チケット取得に失敗しました。再度登録してみてくださいmm")
@@ -139,6 +155,9 @@ def ticket_detail(request, action_type):
     
     return render_template('ticket_detail.html', page_title = 'Ticket', info=info, action_type=action_type)
 
+def result(msg):
+    return render_template('result.html', page_title = 'result', msg = msg)
+
 def error(msg):
     return render_template('error.html', page_title = 'unknown', msg = msg)
 
@@ -146,14 +165,20 @@ def error(msg):
 def randomToken(n):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=n))
 
-
 # API
 @app.route('/ticket/result/update', methods=['POST'])
 def ticket_result_update():    
     db.ticket_update(request)
     return jsonify(success=True)
 
-
+@app.route('/testpage', methods=['GET'])
+def test():
+    msg = textwrap.dedent("""
+        Base url without port
+        {url}
+        Base url without port
+    """).format(url = request.host_url)
+    return msg
 
 # app.register_blueprint(api)
 if __name__ == '__main__':
