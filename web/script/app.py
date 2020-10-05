@@ -80,6 +80,12 @@ def event_entry_post():
 
     family_id = randomToken(32)
     res = db.ticket_insert(request, family_id)
+
+    # QRcode用
+    event_id = request.form['event_id']
+    url = request.host_url + 'ticket/result/view?event_id=' + event_id + '&family_id' + family_id
+    qr_img = qrcode.make(url)
+    qr_img.save('output.png')
     if res:
         msg = textwrap.dedent("""
                 チケットがx枚予約しました<br>

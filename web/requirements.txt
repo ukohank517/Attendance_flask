@@ -1,2 +1,5 @@
 flask
 mysqlclient
+qrcode
+Image
+
