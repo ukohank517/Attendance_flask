@@ -7,6 +7,7 @@ from MySQL import MySQL
 
 db = MySQL()
 app = Flask(__name__)
+app.config['QRPATH'] = './script/static/img/qrcode/'
 
 # from api import api
 
@@ -83,17 +84,21 @@ def event_entry_post():
 
     # QRcode用
     event_id = request.form['event_id']
-    url = request.host_url + 'ticket/result/view?event_id=' + event_id + '&family_id' + family_id
-    qr_img = qrcode.make(url)
-    qr_img.save('output.png')
+    data = request.host_url + 'ticket/result/view?event_id=' + event_id + '&family_id' + family_id
+    filename = family_id + '.png'
+
+    qr_maker(data, filename)
+
     if res:
         msg = textwrap.dedent("""
                 チケットがx枚予約しました<br>
                 QRコードがこちら::<br>
-                <h1>TODO: QR</h1>
+                <p>
+                <img src="/static/img/qrcode/{family_id}.png" alt="pic01">
+                </p>
                 予約内容がメールに送信しました。<br>
-                受信が確認できない場合は開発者まで連絡してみてください。<br>
-            """)
+                受信が確認できない場合は開発者まで連絡してみてくださいね。<br>
+            """).format(family_id = family_id)
         return result(msg)
 
     # 失敗した時
@@ -119,6 +124,14 @@ def event_info():
 @app.errorhandler(404)
 def error_404(error):
     return render_template('404.html', page_title = '404')
+
+def qr_maker(data, filename):
+    qr = qrcode.QRCode(box_size=5)
+    qr.add_data(data)
+    qr.make_image().save(os.path.join(app.config['QRPATH'], filename)) 
+
+
+
 
 def ticket_detail(request, action_type):
     aim_event_id = request.args.get('event_id')
@@ -176,15 +189,6 @@ def randomToken(n):
 def ticket_result_update():    
     db.ticket_update(request)
     return jsonify(success=True)
-
-@app.route('/testpage', methods=['GET'])
-def test():
-    msg = textwrap.dedent("""
-        Base url without port
-        {url}
-        Base url without port
-    """).format(url = request.host_url)
-    return msg
 
 # app.register_blueprint(api)
 if __name__ == '__main__':
