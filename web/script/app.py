@@ -85,20 +85,22 @@ def event_entry_post():
     # QRcode用
     event_id = request.form['event_id']
     data = request.host_url + 'ticket/result/view?event_id=' + event_id + '&family_id' + family_id
+    foldername = event_id + '/'
     filename = family_id + '.png'
 
-    qr_maker(data, filename)
+
+    qr_maker(data, foldername, filename)
 
     if res:
         msg = textwrap.dedent("""
                 チケットがx枚予約しました<br>
                 QRコードがこちら::<br>
                 <p>
-                <img src="/static/img/qrcode/{family_id}.png" alt="pic01">
+                <img src="/static/img/qrcode/{event_id}/{family_id}.png" alt="pic01">
                 </p>
                 予約内容がメールに送信しました。<br>
                 受信が確認できない場合は開発者まで連絡してみてくださいね。<br>
-            """).format(family_id = family_id)
+            """).format(event_id = event_id ,family_id = family_id)
         return result(msg)
 
     # 失敗した時
@@ -125,13 +127,14 @@ def event_info():
 def error_404(error):
     return render_template('404.html', page_title = '404')
 
-def qr_maker(data, filename):
+def qr_maker(data, folder, filename):
+    path = os.path.join(app.config['QRPATH'], folder)
+    if not os.path.exists(path):
+        os.makedirs(path)
+
     qr = qrcode.QRCode(box_size=5)
     qr.add_data(data)
-    qr.make_image().save(os.path.join(app.config['QRPATH'], filename)) 
-
-
-
+    qr.make_image().save(os.path.join(path, filename)) 
 
 def ticket_detail(request, action_type):
     aim_event_id = request.args.get('event_id')
