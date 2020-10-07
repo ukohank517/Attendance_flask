@@ -49,17 +49,22 @@ def event_create_post():
 # イベントのチケットを発行するフォーム
 @app.route('/event/entry', methods=['GET'])
 def event_entry_get():
-    ### !!!!!!!!!!!!!!!!! BUG !!!!!!!!!!!!!!!!! ###
     sql = """
-    SELECT 
-        E.event_id, 
-        E.event_name, 
-        (E.ticket_num - count(*)) as rest_seats
-    FROM event E 
-    JOIN ticket T
-    ON E.event_id = T.event_id 
-    WHERE T.deleted = 0 AND CURRENT_TIMESTAMP() >= public_date
-    GROUP BY event_id;
+    SELECT
+        E.event_id,
+        E.event_name,
+        E.ticket_num - ifnull(T.ticket_num, 0)
+    FROM event E
+    LEFT JOIN (
+        SELECT
+            event_id,
+            count(*) AS ticket_num
+        FROM ticket
+        WHERE deleted = 0 
+        GROUP BY event_id
+    ) T    
+    ON E.event_id = T.event_id
+    WHERE CURRENT_TIMESTAMP() >= E.public_date;
     """
     rows = db.data_getter(sql)
 
