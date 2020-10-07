@@ -33,14 +33,13 @@ def event_create_post():
 
     res = db.event_insert(request, event_id, pswd)
     if res:
-        event_id = request.form['event_id']
         url = request.host_url + 'event/entry?event_id=' + event_id
         msg = textwrap.dedent("""
                 <h1>!!!!!!!!!このページをメモってください!!!!!!!!!<h1>
                 <br>
                 イベントが作成されました： <br>
                 下記のURLをコピーしてシェアしてください： <br>
-                <h1> {url} </h1>
+                <h1> <a href= "{url}" >{url}</a> </h1>
             """).format(url = url)
         return result_page(msg)
 
@@ -50,6 +49,7 @@ def event_create_post():
 # イベントのチケットを発行するフォーム
 @app.route('/event/entry', methods=['GET'])
 def event_entry_get():
+    ### !!!!!!!!!!!!!!!!! BUG !!!!!!!!!!!!!!!!! ###
     sql = """
     SELECT 
         E.event_id, 
@@ -130,13 +130,13 @@ def event_info():
 def error_404(er):
     return render_template('404.html', page_title = '404')
 
-@app.errorhandler(400)
-def error_400(e):
-    return error_page('必須パラメータが足りませんでしたね。')
+# @app.errorhandler(400)
+# def error_400(e):
+#     return error_page('必須パラメータが足りませんでしたね。')
 
-@app.errorhandler(500)
-def error_500(e):
-    return error_page('Internal Server Error')
+# @app.errorhandler(500)
+# def error_500(e):
+#     return error_page('Internal Server Error')
 
 
 def qr_maker(data, folder, filename):

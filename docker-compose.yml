@@ -9,6 +9,8 @@ services:
     environment:
       TZ: Asia/Tokyo
       FLASK_APP: app.py
+      FLASK_ENV: "produciton"
+      # FLASK_ENV: "development"
     depends_on:  # api1サーバーはdbサーバーが立ってから起動
       - db
     volumes:
