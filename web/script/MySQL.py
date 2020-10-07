@@ -8,12 +8,10 @@ class MySQL:
         self.cur = self.conn.cursor()
 
     # event登録
-    def event_insert(self, request):
+    def event_insert(self, request, event_id, pswd):
         self._open()
         try:
-            event_id = request.form['event_id']
             event_name = request.form['event_name']
-            pswd = request.form['pswd']
             ticket_num = request.form['ticket_num']
             event_date = request.form['event_date']
             public_date = request.form['public_date']

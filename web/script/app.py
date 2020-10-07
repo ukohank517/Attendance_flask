@@ -28,7 +28,10 @@ def event_create_get():
 @app.route('/event/create', methods=['POST'])
 def event_create_post():
     # TODO: validation: 
-    res = db.event_insert(request)
+    event_id = randomToken(32)
+    pswd = randomToken(32)
+
+    res = db.event_insert(request, event_id, pswd)
     if res:
         event_id = request.form['event_id']
         url = request.host_url + 'event/entry?event_id=' + event_id
@@ -39,10 +42,10 @@ def event_create_post():
                 下記のURLをコピーしてシェアしてください： <br>
                 <h1> {url} </h1>
             """).format(url = url)
-        return result(msg)
+        return result_page(msg)
 
     # 失敗した時
-    return error("イベント生成に失敗しました。")
+    return error_page("イベント生成に失敗しました。")
 
 # イベントのチケットを発行するフォーム
 @app.route('/event/entry', methods=['GET'])
@@ -70,7 +73,7 @@ def event_entry_get():
             rest_seats = num
 
     if rest_seats <= 0:
-        return error('イベント登録前orチケット在庫なし')
+        return error_page('イベント登録前orチケット在庫なし')
     
     return render_template('event_entry.html', page_title = event_name, rest_seats=rest_seats, event_id=event_id)
 
@@ -101,10 +104,10 @@ def event_entry_post():
                 予約内容がメールに送信しました。<br>
                 受信が確認できない場合は開発者まで連絡してみてくださいね。<br>
             """).format(event_id = event_id ,family_id = family_id)
-        return result(msg)
+        return result_page(msg)
 
     # 失敗した時
-    return error("チケット取得に失敗しました。再度登録してみてくださいmm")
+    return error_page("チケット取得に失敗しました。再度登録してみてくださいmm")
 
 # 取得チケットの情報を表示する
 @app.route('/ticket/result/view', methods=['GET'])
@@ -124,8 +127,17 @@ def event_info():
     return 'event_idとpswdで、予約人間リストを表示する、セットがなければ404に飛ばす'
 
 @app.errorhandler(404)
-def error_404(error):
+def error_404(er):
     return render_template('404.html', page_title = '404')
+
+@app.errorhandler(400)
+def error_400(e):
+    return error_page('必須パラメータが足りませんでしたね。')
+
+@app.errorhandler(500)
+def error_500(e):
+    return error_page('Internal Server Error')
+
 
 def qr_maker(data, folder, filename):
     path = os.path.join(app.config['QRPATH'], folder)
@@ -173,14 +185,14 @@ def ticket_detail(request, action_type):
             info['user_list'].append(user)
 
     if len(info['user_list']) <= 0 :
-        return error('該当する情報が見つかりませんでした')
+        return error_page('該当する情報が見つかりませんでした')
     
     return render_template('ticket_detail.html', page_title = 'Ticket', info=info, action_type=action_type)
 
-def result(msg):
+def result_page(msg):
     return render_template('result.html', page_title = 'result', msg = msg)
 
-def error(msg):
+def error_page(msg):
     return render_template('error.html', page_title = 'unknown', msg = msg)
 
 # ランダム文字列
