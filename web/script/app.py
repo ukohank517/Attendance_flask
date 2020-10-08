@@ -29,9 +29,8 @@ def event_create_get():
 def event_create_post():
     # TODO: validation: 
     event_id = randomToken(32)
-    pswd = randomToken(32)
 
-    res = db.event_insert(request, event_id, pswd)
+    res = db.event_insert(request, event_id)
     if res:
         url = request.host_url + 'event/entry?event_id=' + event_id
         msg = textwrap.dedent("""
