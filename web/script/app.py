@@ -154,7 +154,6 @@ def event_entry_post():
     foldername = event_id + '/'
     filename = family_id + '.png'
 
-
     qr_maker(data, foldername, filename)
 
     if res:

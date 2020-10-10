@@ -48,7 +48,7 @@ class MySQL:
                     VALUES
                     (
                         /***** (last ticket_id) + 1 *****/
-                        (select lst_id + 1 
+                        (select ifnull(lst_id) + 1 
                             from
                         (select max(ticket_id) as lst_id from ticket where event_id = %(event_id)s) TB ),
                         /********************************/   
