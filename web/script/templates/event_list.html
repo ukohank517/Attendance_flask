@@ -15,7 +15,7 @@
             {% for event in events %}
             <tr>
                 <td style="display: none;"><input type="hidden" name="hoge2" value="{{event[0]}}"></td>
-                <td> <a href="/event/detail/{{event[0]}}"> {{ event[1] }} </a> </td>
+                <td onclick="func('{{ event[0]}}' );"> <a href="#">{{ event[1] }}</a> </td>
                 <td>{{ event[2] }}</td>
                 {% if event[3] == '0' %}
                 <td> <font color="#b8b8b8"> 公開前 </font> </td>
@@ -30,4 +30,5 @@
 	</div>
 </div>
 
+<script src="/static/js/event_list.js"></script>
 {% endblock body %}

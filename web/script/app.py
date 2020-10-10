@@ -1,7 +1,7 @@
 # coding=utf-8
 import os
 import MySQLdb
-import random, string, textwrap, qrcode
+import random, string, textwrap, qrcode, hashlib
 from flask import Flask, Blueprint, jsonify, request, Response, render_template
 from MySQL import MySQL
 
@@ -20,6 +20,65 @@ app.config['QRPATH'] = './script/static/img/qrcode/'
 def top():
     page_title = 'Top'
     return render_template('top.html', page_title = page_title)
+
+@app.route('/event/list', methods=['GET'])
+def event_list():
+    # TODO: 自分が開催するイベントのみ表示
+    sql = """
+    SELECT
+    event_id,
+    event_name,
+    DATE(event_date),
+    (CASE WHEN CURRENT_TIMESTAMP() < public_date THEN '0'
+          WHEN CURRENT_TIMESTAMP() < public_date THEN '2'
+          ELSE '1'
+    END) as public_status
+    FROM
+        event
+    WHERE
+        deleted = 0
+    ORDER BY created_at DESC;
+    """
+    events = db.data_getter(sql)
+
+    return render_template('event_list.html', page_title = 'イベント一覧', events = events)
+
+@app.route('/event/detail', methods=['POST'])
+def event_detail():
+    rows = None
+
+    event_id = request.form['event_id']
+    token = request.form['token']
+    hash_token = hashlib.md5(token.encode('utf-8')).hexdigest()
+    sql = textwrap.dedent("""
+            SELECT
+                event_name
+            FROM event
+            WHERE
+                event_id = '{event_id}'
+                AND
+                pswd = '{pswd}';
+            """).format(event_id = event_id, pswd = hash_token)
+
+    event_name = db.data_getter(sql)
+    print(len(event_name))
+
+    page_title = '参加者リスト'
+    if len(event_name) == 1:
+        sql = textwrap.dedent("""
+                SELECT
+                    ticket_id,
+                    name,
+                    memo
+                FROM ticket
+                WHERE event_id = '{event_id}'
+                    AND deleted = 0
+                ;
+                """).format(event_id = event_id)
+        rows = db.data_getter(sql)
+        page_title = event_name[0][0]
+
+    return render_template('event_detail.html', page_title = page_title, members = rows)
 
 @app.route('/event/create', methods=['GET'])
 def event_create_get():

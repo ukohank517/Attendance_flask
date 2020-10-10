@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block body %}
+
+{% if members %}
+<div class="panel panel-primary">    
+	<div class="panel-heading">
+        参加者情報
+    </div>    
+	<div class="panel-body">
+		<table class="table table-bordered">
+            <tr>
+                <th class="info" width="10%">id</th>
+                <th class="info" width="40%">名前</th>
+                <th class="info" width="40%">メモ</th>
+            </tr>
+            
+            
+            {% for member in members%}
+            <tr>
+                <td>{{ member[0] }}</td>
+                <td>{{ member[1] }}</td>
+                <td>{{ member[2] }}</td>
+            </tr>
+            {% endfor %}            
+        </table>
+    </div>
+</div>
+{% else %}
+<div class="panel panel-danger">
+    <div class="panel-heading">
+        <h5 class="panel-title">情報がありませんでした。</h5>
+    </div>
+</div>
+{% endif %}
+
+<!-- <script src="/static/js/event_detail.js"></script> -->
+<!-- <link  href="/static/css/form.css" rel="stylesheet"></link> -->
+{% endblock body %}
