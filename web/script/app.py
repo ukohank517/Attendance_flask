@@ -150,7 +150,7 @@ def event_entry_post():
 
     # QRcode用
     event_id = request.form['event_id']
-    data = request.host_url + 'ticket/result/view?event_id=' + event_id + '&family_id=' + family_id
+    data = request.host_url + 'ticket/result/edit?event_id=' + event_id + '&family_id=' + family_id
     foldername = event_id + '/'
     filename = family_id + '.png'
 
