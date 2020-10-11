@@ -7,7 +7,9 @@ services:
       - '80:80'
       - '443:443'
     environment:
-      DOMAINS: 'chinese-christian.jp'
+      DOMAINS: 'chinese-christian.jp -> http://host.docker.internal:5000'
+      # STAGE: 'local'
+      # STAGE: 'production'
     volumes:
       - ./ssl_certs:/var/lib/https-portal
   web:
