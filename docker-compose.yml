@@ -1,5 +1,15 @@
 version: '3'
 services:
+  https-portal:
+    image: steveltn/https-portal:1
+    container_name: https-portal
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      DOMAINS: 'chinese-christian.jp'
+    volumes:
+      - ./ssl_certs:/var/lib/https-portal
   web:
     build: web
     container_name: web_server

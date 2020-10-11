@@ -1,5 +1,6 @@
 ### applog ###
 db-data
+ssl_certs
 web/script/static/img/qrcode/
 ### pythonerror cache ###
 web/script/__pycache__/
