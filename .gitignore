@@ -1,9 +1,9 @@
-### applog ###
+### app setting file ###
 db-data
 ssl_certs
 web/script/static/img/qrcode/
-### pythonerror cache ###
 web/script/__pycache__/
+.env
 
 
 ### IDE setting ###
