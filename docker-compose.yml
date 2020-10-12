@@ -7,7 +7,7 @@ services:
       - '80:80'
       - '443:443'
     environment:
-      DOMAINS: 'sample-christian.jp -> http://web_server:5000'
+      DOMAINS: 'chinese-christian.jp -> http://web_server:5000'
       # STAGE: 'production'
     volumes:
       - ./ssl_certs:/var/lib/https-portal
