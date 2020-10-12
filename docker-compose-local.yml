@@ -7,7 +7,8 @@ services:
       - '80:80'
       - '443:443'
     environment:
-      DOMAINS: 'chinese-christian.jp -> http://web_server:5000'
+      DOMAINS: '${DOMAIN} -> http://web_server:5000'
+      STAGE: '${STAGE}'
       # STAGE: 'production'
     volumes:
       - ./ssl_certs:/var/lib/https-portal
@@ -22,8 +23,8 @@ services:
     environment:
       TZ: Asia/Tokyo
       FLASK_APP: app.py
-      FLASK_ENV: "produciton"
-      # FLASK_ENV: "development"
+      ENV_FILE_NAME: ".env"
+      FLASK_ENV: "${FLASK_STAGE}"
     depends_on:  # api1サーバーはdbサーバーが立ってから起動
       - db
     volumes:
@@ -37,7 +38,7 @@ services:
     ports:
       - '3306:3306'
     environment:
-      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: attendance
       TZ: Asia/Tokyo
     volumes:

@@ -2,4 +2,4 @@ flask
 mysqlclient
 qrcode
 Image
-
+environs

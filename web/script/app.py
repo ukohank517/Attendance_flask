@@ -4,10 +4,17 @@ import MySQLdb
 import random, string, textwrap, qrcode, hashlib
 from flask import Flask, Blueprint, jsonify, request, Response, render_template
 from MySQL import MySQL
+from Mail import Mail
+from environs import Env
+from os import environ as osenv
+
 
 db = MySQL()
+mail = Mail()
+env = Env()
 app = Flask(__name__)
 app.config['QRPATH'] = './script/static/img/qrcode/'
+env.read_env(osenv.get('ENV_FILE_NAME', default='.env'), recurse=False)
 
 # from api import api
 
@@ -16,6 +23,9 @@ app.config['QRPATH'] = './script/static/img/qrcode/'
 # mail_file = os.path.join(os.getcwd(), 'data', 'personal_info.csv')
 
 @app.route('/')
+def _top():
+    return "カレンダー、イベント"
+
 @app.route('/top')
 def top():
     page_title = 'Top'
@@ -187,6 +197,10 @@ def event_info():
     event_pswd = request.args.get('pswd')
 
     return 'event_idとpswdで、予約人間リストを表示する、セットがなければ404に飛ばす'
+
+@app.route('/testpage', methods=['GET'])
+def testpage():
+    return mail.test()
 
 @app.errorhandler(404)
 def error_404(er):
