@@ -8,10 +8,11 @@ services:
       - '443:443'
     environment:
       DOMAINS: 'chinese-christian.jp -> http://host.docker.internal:5000'
-      # STAGE: 'local'
       # STAGE: 'production'
     volumes:
       - ./ssl_certs:/var/lib/https-portal
+    networks:
+      - app_net
   web:
     build: web
     container_name: web_server
