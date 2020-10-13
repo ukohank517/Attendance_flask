@@ -175,6 +175,12 @@ def event_entry_post():
                 予約内容がメールに送信しました。<br>
                 受信が確認できない場合は開発者まで連絡してみてくださいね。<br>
             """).format(event_id = event_id ,family_id = family_id)
+        HOST = osenv.get('GMAIL_HOST', default='none')
+        USER = osenv.get('GMAIL_USER', default='none')
+        PASS = osenv.get('GMAIL_PASS', default='none')
+        from_addr = USER + '@gmail.com'
+        to_addr = request.form['email']
+        mail.send_mail(HOST, USER, PASS, from_addr, to_addr, "hello")
         return result_page(msg)
 
     # 失敗した時
