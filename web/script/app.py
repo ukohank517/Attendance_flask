@@ -25,10 +25,10 @@ app.config['QRPATH'] = './script/static/img/qrcode/'
 def _top():
     return "カレンダー、イベント"
 
-@app.route('/top')
-def top():
-    page_title = 'Top'
-    return render_template('top.html', page_title = page_title)
+@app.route('/work')
+def work():
+    page_title = 'Work'
+    return render_template('work.html', page_title = page_title)
 
 @app.route('/event/list', methods=['GET'])
 def event_list():
