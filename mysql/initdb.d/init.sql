@@ -44,6 +44,7 @@ CREATE TABLE `personal_info` (
 
 INSERT INTO `event` (event_id, event_name, pswd, ticket_num, event_date, public_date)
 VALUES
+('test0', '終了イベント', MD5('pass'), 20, '2020-9-20', '2020-9-20'),
 ('test1', '表示テスト', MD5('pass'), 20, '2020-10-20', '2020-9-20'),
 ('test2', '公開日で表示しない', MD5('pass'), 12, '2020-10-20', '2020-10-20'),
 ('test3', 'チケット枚数足りない', MD5('pass'), 1, '2020-10-20', '2020-10-20');
