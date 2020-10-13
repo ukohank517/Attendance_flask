@@ -180,7 +180,7 @@ def event_entry_post():
         PASS = osenv.get('GMAIL_PASS', default='none')
         from_addr = USER + '@gmail.com'
         to_addr = request.form['email']
-        mail.send_mail(HOST, USER, PASS, from_addr, to_addr, "hello")
+        # mail.send_mail(HOST, USER, PASS, from_addr, to_addr, "hello")
         return result_page(msg)
 
     # 失敗した時
@@ -210,7 +210,7 @@ def sendmail():
     PASS = osenv.get('GMAIL_PASS', default='none')
     from_addr = USER + '@gmail.com'
     to_addr = 'ukohank517@gmail.com'
-    mail.send_mail(HOST, USER, PASS, from_addr, to_addr, 'hello')
+    # mail.send_mail(HOST, USER, PASS, from_addr, to_addr, 'hello')
     return "success"
 
 @app.errorhandler(404)
