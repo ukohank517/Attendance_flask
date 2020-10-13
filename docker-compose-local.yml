@@ -9,7 +9,6 @@ services:
     environment:
       DOMAINS: '${DOMAIN} -> http://web_server:5000'
       STAGE: '${STAGE}'
-      # STAGE: 'production'
     volumes:
       - ./ssl_certs:/var/lib/https-portal
     networks:
@@ -24,7 +23,7 @@ services:
       TZ: Asia/Tokyo
       FLASK_APP: app.py
       ENV_FILE_NAME: ".env"
-      FLASK_ENV: "${FLASK_STAGE}"
+      FLASK_ENV: "${FLASK_ENV}"
       GMAIL_HOST: "${GMAIL_HOST}"
       GMAIL_USER: "${GMAIL_USER}"
       GMAIL_PASS: "${GMAIL_PASS}"
@@ -42,7 +41,7 @@ services:
       - '3306:3306'
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: attendance
+      MYSQL_DATABASE: ${DB_MYSQL_DATABASE}
       TZ: Asia/Tokyo
     volumes:
       - ./db-data:/var/lib/mysql
