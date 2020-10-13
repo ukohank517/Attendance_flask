@@ -25,6 +25,9 @@ services:
       FLASK_APP: app.py
       ENV_FILE_NAME: ".env"
       FLASK_ENV: "${FLASK_STAGE}"
+      GMAIL_HOST: "${GMAIL_HOST}"
+      GMAIL_USER: "${GMAIL_USER}"
+      GMAIL_PASS: "${GMAIL_PASS}"
     depends_on:  # api1サーバーはdbサーバーが立ってから起動
       - db
     volumes:

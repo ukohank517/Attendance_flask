@@ -14,7 +14,6 @@ mail = Mail()
 env = Env()
 app = Flask(__name__)
 app.config['QRPATH'] = './script/static/img/qrcode/'
-env.read_env(osenv.get('ENV_FILE_NAME', default='.env'), recurse=False)
 
 # from api import api
 
@@ -198,9 +197,15 @@ def event_info():
 
     return 'event_idとpswdで、予約人間リストを表示する、セットがなければ404に飛ばす'
 
-@app.route('/testpage', methods=['GET'])
-def testpage():
-    return mail.test()
+@app.route('/sendmail', methods=['GET'])
+def sendmail():
+    HOST = osenv.get('GMAIL_HOST', default='none')
+    USER = osenv.get('GMAIL_USER', default='none')
+    PASS = osenv.get('GMAIL_PASS', default='none')
+    from_addr = USER + '@gmail.com'
+    to_addr = 'ukohank517@gmail.com'
+    mail.send_mail(HOST, USER, PASS, from_addr, to_addr, 'hello')
+    return "success"
 
 @app.errorhandler(404)
 def error_404(er):
