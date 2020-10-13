@@ -42,7 +42,7 @@ def event_list():
     """
     events = db.data_getter(sql)
 
-    return render_template('event_list.html', page_title = 'イベント一覧', events = events)
+    return render_template('event_list.html', page_title = '弥撒一覧', events = events)
 
 @app.route('/work')
 def work():
