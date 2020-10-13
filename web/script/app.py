@@ -21,15 +21,7 @@ app.config['QRPATH'] = './script/static/img/qrcode/'
 # app.config.from_pyfile(flask_conf_file)
 # mail_file = os.path.join(os.getcwd(), 'data', 'personal_info.csv')
 
-@app.route('/')
-def _top():
-    return "カレンダー、イベント"
-
-@app.route('/work')
-def work():
-    page_title = 'Work'
-    return render_template('work.html', page_title = page_title)
-
+@app.route('/', methods=['GET'])
 @app.route('/event/list', methods=['GET'])
 def event_list():
     # TODO: 自分が開催するイベントのみ表示
@@ -51,6 +43,11 @@ def event_list():
     events = db.data_getter(sql)
 
     return render_template('event_list.html', page_title = 'イベント一覧', events = events)
+
+@app.route('/work')
+def work():
+    page_title = 'Work'
+    return render_template('work.html', page_title = page_title)
 
 @app.route('/event/detail', methods=['POST'])
 def event_detail():
