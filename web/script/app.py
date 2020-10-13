@@ -31,14 +31,14 @@ def event_list():
     event_name,
     DATE(event_date),
     (CASE WHEN CURRENT_TIMESTAMP() < public_date THEN '0'
-          WHEN CURRENT_TIMESTAMP() < public_date THEN '2'
+          WHEN CURRENT_TIMESTAMP() > event_date THEN '2'
           ELSE '1'
     END) as public_status
     FROM
         event
     WHERE
         deleted = 0
-    ORDER BY created_at DESC;
+    ORDER BY event_date DESC;
     """
     events = db.data_getter(sql)
 

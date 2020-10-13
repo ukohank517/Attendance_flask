@@ -9,20 +9,27 @@
 		<table class="table table-bordered">
             <tr> 
                 <th class="info" width="30%">イベント名</th>
-                <th class="info" width="30%">イベント開催日</th>
                 <th class="info" width="30%">公開ステータス</th>
+                <th class="info" width="20%">イベント開催日</th>
+                <th class="info" width="20%">登録</th>
             </tr>
             {% for event in events %}
             <tr>
                 <td style="display: none;"><input type="hidden" name="hoge2" value="{{event[0]}}"></td>
-                <td onclick="func('{{ event[0]}}' );"> <a href="#">{{ event[1] }}</a> </td>
-                <td>{{ event[2] }}</td>
+                <td onclick="func('{{ event[0]}}' );"> <a href="#">{{ event[1] }}</a> </td>                
                 {% if event[3] == '0' %}
                 <td> <font color="#b8b8b8"> 公開前 </font> </td>
                 {% elif event[3] == '2' %}
-                <td> <del>終了</del> </td>
+                <td> <del>終了イベント</del> </td>
                 {% else %}
                 <td>公開中</td>
+                {% endif %}
+                <td>{{ event[2] }}</td>
+
+                {% if event[3] == '1' %}
+                <td><a class="btn btn-primary" href="/event/entry?event_id={{ event[0] }}" role="button">登録</a></td>
+                {% else %}
+                <td><a class="btn btn-primary disabled" href="/event/entry?event_id={{ event[0] }}" role="button">登録</a></td>
                 {% endif %}
             </tr>
             {% endfor %}
