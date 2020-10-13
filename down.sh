@@ -20,7 +20,8 @@ fi
 source ".env"
 
 echo "[INFO] Building Dockerfiles..."
-docker-compose -f "docker-compose-${STAGE}.yml" down
+# docker-compose -f "docker-compose-${STAGE}.yml" down
+docker-compose  down
 
 # Back to previous directory
 popd > /dev/null
