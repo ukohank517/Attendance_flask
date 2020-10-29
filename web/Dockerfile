@@ -1,10 +1,10 @@
 FROM python:3.6
-ARG work_dir=/work/mysql_django
+ARG work_dir=/work/mysql_flask
 
 WORKDIR $work_dir/
 
 COPY conf/ $work_dir/conf/
-COPY django/ $work_dir/django/
+COPY script/ $work_dir/script/
 COPY data/ $work_dir/data/
 COPY requirements.txt $work_dir
 
