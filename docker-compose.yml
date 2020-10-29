@@ -30,7 +30,7 @@ services:
     depends_on:  # api1サーバーはdbサーバーが立ってから起動
       - db
     volumes:
-      - ./web/script:/work/mysql_flask/script/
+      - ./web/django:/work/mysql_flask/django/
     networks:  # api1とdbを接続するための共通ネットワーク指定
       - app_net
     # command: flask run --host 0.0.0.0 --port 5000
