@@ -1,4 +1,4 @@
-# ChristianAttendance(出席チケット管理)
+# ChristianAttendance_flask(出席チケット管理)
 
 ### 機能
 - 出席登録
