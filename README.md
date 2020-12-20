@@ -1,4 +1,4 @@
-# AttendanceTicket(出席チケット管理)
+# ChristianAttendance(出席チケット管理)
 
 ### 機能
 - 出席登録
