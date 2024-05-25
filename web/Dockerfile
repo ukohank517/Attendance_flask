@@ -8,4 +8,5 @@ COPY script/ $work_dir/script/
 COPY data/ $work_dir/data/
 COPY requirements.txt $work_dir
 RUN pip install -r requirements.txt
-CMD ["python", "/work/mysql_flask/script/app.py"]
+
+ENV FLASK_APP=$work_dir/script/app.py

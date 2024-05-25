@@ -21,7 +21,7 @@ services:
     tty: yes
     environment:
       TZ: Asia/Tokyo
-      FLASK_APP: app.py
+      # FLASK_APP: app.py
       ENV_FILE_NAME: ".env"
       FLASK_ENV: "${FLASK_ENV}"
       GMAIL_HOST: "${GMAIL_HOST}"
@@ -33,8 +33,9 @@ services:
       - ./web/script:/work/mysql_flask/script/
     networks:  # api1とdbを接続するための共通ネットワーク指定
       - app_net
-    # command: flask run --host 0.0.0.0 --port 5000
+    command: flask run --host 0.0.0.0 --port 5000
   db:
+    platform: linux/amd64
     build: mysql
     container_name: db_server
     ports:
