@@ -1,7 +1,7 @@
 CREATE TABLE `event` (
     event_id        VARCHAR(100) UNIQUE NOT NULL,
     event_name      VARCHAR(100)        NOT NULL,
-    organization_id VARCHAR(100)        NOT NULL DEFAULT 'unknown',    
+    organization_id VARCHAR(100)        NOT NULL DEFAULT 'unknown',
     pswd            VARCHAR(100)        NOT NULL,
     ticket_num      INT                 NOT NULL,
     event_date      DATETIME(6)         NOT NULL,
@@ -45,9 +45,9 @@ CREATE TABLE `personal_info` (
 INSERT INTO `event` (event_id, event_name, pswd, ticket_num, event_date, public_date)
 VALUES
 ('test0', '終了イベント', MD5('pass'), 20, '2020-9-20', '2020-9-20'),
-('test1', '表示テスト', MD5('pass'), 20, '2020-10-20', '2020-9-20'),
-('test2', '公開日で表示しない', MD5('pass'), 12, '2020-10-20', '2020-10-20'),
-('test3', 'チケット枚数足りない', MD5('pass'), 1, '2020-10-20', '2020-10-20');
+('test1', '表示テスト', MD5('pass'), 20, '2024-10-20', '2020-9-20'),
+('test2', '登録日前', MD5('pass'), 12, '2024-10-20', '2024-10-20'),
+('test3', 'チケット枚数足りない', MD5('pass'), 1, '2024-10-20', '2020-10-20');
 
 INSERT INTO `ticket` (ticket_id, event_id, name, phone_number, email, family_id, comment, memo, deleted)
 VALUES
@@ -56,8 +56,6 @@ VALUES
 (3, 'test1', 'name3', '08012345678', 'test@mail.com', 'family1', '', '', TRUE),
 (4, 'test1', 'name4', '08012345678', 'test@mail.com', 'family2', '', '', FALSE),
 (5, 'test1', 'name5', '08012345678', 'test@mail.com', 'family3', '', '', FALSE),
-(1, 'test2', 'name1', '08012345678', 'test@mail.com', 'family1', '', '', FALSE),
-(2, 'test2', 'name2', '08012345678', 'test@mail.com', 'family1', '', '', FALSE),
 (1, 'test3', 'name1', '08012345678', 'test@mail.com', 'family1', '', '', FALSE);
 
 
