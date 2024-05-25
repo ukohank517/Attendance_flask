@@ -1,15 +1,31 @@
 # Attendance_flask(出席チケット管理)
 
 ### 機能
+
+コロナ下でイベント開催時、人数制限とイベント開催日当日の出席者の対応
+
+1. 人数制限でイベントを開催したい。
+
+2. イベントチケットは決まった時間で配布開始したい。
+
+3. 事前に登録した出席者の当日の体温を記録したい。
+
+そのため下記機能を用意している:
+
+- イベント登録(by api)
+  - イベントの開催日を決め、チケット販売開始日を登録できます。
 - 出席登録
+  - チケット販売開始日から、イベント開催日の間で、身元を登録して参加登録ができます。
+  - 参加登録後、QRコードが発行されます。スクショを撮ってイベント開催日に会場で提示する。(メール送信未実装)
 
 - 出席確認
+  - QRコードのスクショを携帯でスキャンし、出席者の体温を登録する。
 
 ### 使い方
 
 - 設定ファイル: docker-compose.yaml
 
-- アプリ起動(初期化): 
+- アプリ起動(初期化):
   ```
   docker-compose up -d #(--update)
   ```
@@ -28,7 +44,7 @@
 
 ### DB構造
 
-- organization 
+- organization
 
   - TODO
 
@@ -46,7 +62,7 @@
   | |version|INT|管理バージョン|1, インクリメント|
   | |created_at|DATETIME(6)|データ作成日時|current_timestamp()|
   | |updated_at|DATETIME(6)|データ更新日時|current_timestamp()|
-  | |deleted|BOOLEAN|論理削除フラグ|false|  
+  | |deleted|BOOLEAN|論理削除フラグ|false|
 
 - ticket (チケットテーブル)
 
@@ -63,7 +79,7 @@
   | |version|INT|管理バージョン|1, インクリメント|
   | |created_at|DATETIME(6)|データ作成日時|current_timestamp()|
   | |updated_at|DATETIME(6)|データ更新日時|current_timestamp()|
-  | |deleted|BOOLEAN|論理削除フラグ|false|  
+  | |deleted|BOOLEAN|論理削除フラグ|false|
 
 
-  
+
